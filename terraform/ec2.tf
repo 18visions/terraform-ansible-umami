@@ -3,7 +3,7 @@ resource "aws_instance" "umami-web-prod" {
   ami                    = "ami-087f352c165340ea1"
   instance_type          = "t2.micro" # t2.micro is free tier eligible
   iam_instance_profile   = aws_iam_instance_profile.umami-web-prod.name
-  vpc_security_group_ids = [data.aws_security_group.sg.id]
+  vpc_security_group_ids = [aws_security_group.umami-sg.id]
   user_data = base64encode(templatefile("templates/user_data.sh", {
     zip       = "umami-${data.archive_file.umami-ansible.output_md5}.zip"
     s3_bucket = aws_s3_bucket.umami-ansible.bucket
