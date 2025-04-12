@@ -1,8 +1,3 @@
-variable "umami_pw" {
-  description = "Password for the umami admin user"
-  type        = string
-}
-
 variable "environment" {
   description = "Environment for the umami analytics"
   type        = string
@@ -20,11 +15,6 @@ variable "domain_name" {
 
 variable "security_group_name" {
   description = "Security group name for the umami analytics"
-  type        = string
-}
-
-variable "subdomain" {
-  description = "Subdomain for the umami analytics"
   type        = string
 }
 
