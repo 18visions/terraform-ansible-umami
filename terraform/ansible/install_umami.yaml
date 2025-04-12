@@ -1,0 +1,8 @@
+---
+- name: Setup Umami reverse proxy and Docker on Amazon Linux
+  hosts: all
+  become: true
+  roles:
+    - nginx
+    - letsencrypt
+    - umami

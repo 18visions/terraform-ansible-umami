@@ -1,0 +1,16 @@
+---
+- name: Install Certbot and the Nginx plugin
+  yum:
+    name:
+      - certbot
+      - python3-certbot-nginx
+    state: present
+
+- name: Obtain Let's Encrypt certificate using Certbot
+  shell: >
+    certbot --nginx --non-interactive --agree-tos --redirect
+    -d {{ domain }} -m {{ email }}
+  args:
+    creates: "/etc/letsencrypt/live/{{ domain }}/fullchain.pem"
+  notify:
+    - reload nginx

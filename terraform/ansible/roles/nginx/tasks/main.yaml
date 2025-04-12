@@ -1,0 +1,37 @@
+---
+- name: Install epel-release (if not already present)
+  yum:
+    name: epel-release
+    state: present
+
+- name: Install Nginx
+  yum:
+    name: nginx
+    state: present
+
+- name: Start and enable Nginx service
+  service:
+    name: nginx
+    state: started
+    enabled: true
+
+- name: Deploy Nginx reverse proxy configuration for Umami
+  template:
+    src: umami.conf.j2
+    dest: /etc/nginx/conf.d/umami.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: 
+    - reload nginx
+
+- name: Test Nginx configuration
+  command: nginx -t
+  register: nginx_test
+  changed_when: false
+
+- name: Reload Nginx if configuration test passed
+  service:
+    name: nginx
+    state: reloaded
+  when: nginx_test.rc == 0

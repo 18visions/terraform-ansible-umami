@@ -1,0 +1,46 @@
+---
+- name: Install Docker
+  yum:
+    name: docker
+    state: present
+
+- name: Start and enable Docker service
+  service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Install Docker Compose if not present
+  stat:
+    path: /usr/local/bin/docker-compose
+  register: docker_compose_check
+
+- name: Download Docker Compose
+  get_url:
+    url: "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)"
+    dest: /usr/local/bin/docker-compose
+    mode: '0755'
+  when: not docker_compose_check.stat.exists
+
+- name: Create directory for Umami Docker Compose
+  file:
+    path: "{{ umami_compose_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Copy docker-compose.yaml file for Umami
+  copy:
+    src: docker-compose.yaml
+    dest: "{{ umami_compose_dir }}/docker-compose.yaml"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Bring up Umami services with Docker Compose
+  shell: docker-compose up -d
+  args:
+    chdir: "{{ umami_compose_dir }}"
+  register: docker_compose_result
+  changed_when: "'Creating' in docker_compose_result.stdout"
