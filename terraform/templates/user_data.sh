@@ -1,7 +1,7 @@
 #!/bin/bash -xe
 
-apt update -y && apt upgrade -y
-apt install zip unzip python3-pip -y
+yum update -y && yum upgrade -y
+yum install zip unzip python3-pip -y
 pip install ansible
 
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
