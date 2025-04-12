@@ -1,6 +1,6 @@
 resource "aws_instance" "umami-web-prod" {
   # base ubuntu image in aws
-  ami                    = "ami-0606dd43116f5ed57"
+  ami                    = "ami-087f352c165340ea1"
   instance_type          = "t2.micro" # t2.micro is free tier eligible
   iam_instance_profile   = aws_iam_instance_profile.umami-web-prod.name
   vpc_security_group_ids = [data.aws_security_group.sg.id]
@@ -32,7 +32,7 @@ resource "aws_instance" "umami-web-prod" {
   }
 
   tags = {
-    Name        = "${var.environment}-umami-web-prod"
+    Name        = "${var.environment}-umami-web"
     OS          = "Ubuntu"
     Platform    = "Linux"
     Environment = var.environment
