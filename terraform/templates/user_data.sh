@@ -16,4 +16,4 @@ unzip umami-ansible.zip
 echo 'preserve_hostname: true' >> /etc/cloud/cloud.cfg
 hostnamectl set-hostname ${hostname}
 
-/usr/local/bin/ansible-playbook -i "127.0.0.1," --connection=local install_umami.yaml
+/usr/local/bin/ansible-playbook -i "127.0.0.1," --connection=local install_umami.yaml -e "domain=${domain} email=${letsencryptemail} umami_compose_dir=${umami_compose_dir}"

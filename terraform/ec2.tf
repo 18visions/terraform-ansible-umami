@@ -7,7 +7,7 @@ resource "aws_instance" "umami-web-prod" {
   user_data = base64encode(templatefile("templates/user_data.sh", {
     zip       = "umami-${data.archive_file.umami-ansible.output_md5}.zip"
     s3_bucket = aws_s3_bucket.umami-ansible.bucket
-    hostname  = "${var.environment}-umami-web-prod"
+    hostname  = "${var.environment}-umami-web"
     domain    = "${var.subdomain}.${var.domain_name}"
     letsencryptemail = var.letsencryptemail
     umami_compose_dir = "/opt/umami"
