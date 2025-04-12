@@ -10,7 +10,5 @@
   shell: >
     certbot --nginx --non-interactive --agree-tos --redirect
     -d {{ domain }} -m {{ email }}
-  args:
-    creates: "/etc/letsencrypt/live/{{ domain }}/fullchain.pem"
   notify:
     - reload nginx
